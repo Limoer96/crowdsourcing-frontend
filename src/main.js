@@ -6,7 +6,8 @@ import VueAMap from 'vue-amap';
 import router from './router'
 import store from './store';
 import './common/rem';
-
+import setTokenHeader from './util/settokenheader';
+import axios from 'axios';
 import { Cell, 
   CellGroup, 
   Popup, 
@@ -18,7 +19,9 @@ import { Cell,
   Switch,
   Col,
   Row,
-  Field 
+  Field,
+  Toast,
+  Radio
 } from 'vant';
 Vue.use(Cell)
   .use(CellGroup)
@@ -31,7 +34,9 @@ Vue.use(Cell)
   .use(Switch)
   .use(Col)
   .use(Row)
-  .use(Field);
+  .use(Field)
+  .use(Toast)
+  .use(Radio);
 
 Vue.use(VueAMap);
 // 任何将要使用的插件在这里引入
@@ -41,6 +46,10 @@ VueAMap.initAMapApiLoader({
   v: '1.4.4'
 })
 Vue.config.productionTip = false
+
+if(window.localStorage) {
+  setTokenHeader(localStorage.getItem('token'));
+}
 
 /* eslint-disable no-new */
 new Vue({

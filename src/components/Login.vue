@@ -28,13 +28,13 @@
               placeholder="输入邮件" 
             />
             <van-field 
-              v-model="token" 
+              v-model="verificationCode" 
               center
               placeholder="请输入验证码"
               icon="clear"
-              @click-icon="token = ''"
+              @click-icon="verificationCode = ''"
             >
-              <van-button slot="button" size="small" type="primary">发送验证码</van-button>
+              <van-button :disabled="vc_send" @click="getVCode" slot="button" size="small" type="primary">发送验证码</van-button>
             </van-field>     
           </van-cell-group>
         </van-col>
@@ -43,7 +43,7 @@
       <p class="alert">未注册用户登录后，注册即同意《HFxxC用户协议》</p>
       <van-row>
         <van-col span="22" offset="1">
-          <van-button type="primary" size="large">登录</van-button>
+          <van-button @click="login" type="primary" size="large" :loading="loading">登录</van-button>
         </van-col>
       </van-row>
       <van-row>
@@ -63,6 +63,7 @@
 
 <script>
 import img from '../assets/close.png';
+import { mapState } from 'vuex';
 export default {
   name: 'Auth',
   data() {
@@ -72,7 +73,7 @@ export default {
       imgSrc: img,
       userId: '',
       password: '',
-      token: '',
+      verificationCode: '',
       email: ''
     }
   },
@@ -82,11 +83,35 @@ export default {
     },
     changeToEmailLogin() {
       if(this.emailLogin) {
+        this.email = '';
+        this.verificationCode = '';;
         this.btnMessage = '账户密码登录';
       }else {
         this.btnMessage = '邮箱免密登录';
+        this.userId = '';
+        this.password = '';
       }
       this.emailLogin = !this.emailLogin;
+    },
+    login() {    
+      this.$store.dispatch('auth', { 
+        router: this.$router, 
+        alert: this.$toast,
+        data:{
+          user_id: this.userId, 
+          password: this.password,
+          email: this.email,
+          vc: this.verificationCode 
+        }
+      })
+    },
+    getVCode() {
+      this.$store.dispatch('getVC', {
+        alert: this.$toast,
+        data: {
+          email: this.email
+        }
+      });
     }
   },
   computed: {
@@ -96,6 +121,11 @@ export default {
     isPasswordEmpty() {
       return this.password === '';
     },
+    ...mapState({
+      loading: state => state.auth.loading,
+      error: state => state.auth.error,
+      vc_send: state => state.auth.vc_send
+    })
   }
 }
 </script>
