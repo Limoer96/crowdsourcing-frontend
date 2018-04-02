@@ -24,6 +24,13 @@ const mutations = {
   },
   [types.AUTH_FAILED](state, { error }) {
     state.error = error;
+  },
+  [types.LOGOUT_AND_CLEAR_TOKEN](state) {
+    state.token = null;
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('email');
+    setTokenHeader(); // 清除验证头部
   } 
 };
 const actions = {
@@ -46,7 +53,7 @@ const actions = {
         localStorage.setItem('userName', payload.data.user_id);
         setTokenHeader(token);
         setTimeout(() => {
-          payload.router.push('/dashbord');
+          payload.router.push('/'); // 跳转至主页
         }, 1000);
       }
     }).catch(err => {
@@ -82,6 +89,31 @@ const actions = {
       payload.alert.success('该用户名可用');
     }).catch(err => {
       payload.alert.fail('当前用户名不可用');      
+    })
+  },
+  sendResetEmail(context, payload) {
+    api.sendResetPasswordMail(payload.data).then(json => {
+      payload.alert.success('发送邮件成功');
+    }).catch(err => {
+      payload.alert.fail('发送邮件失败');
+    })
+  },
+  resetPassword(context, payload) {
+    api.resetPassword(payload.data).then(json => {
+      payload.alert.success('修改密码成功，1秒后跳转');
+      setTimeout(() => {
+        payload.router.push('/auth');
+      }, 1000)
+    }).catch(err => {
+      let status = err.response.data.status;
+      if(status === 1) {
+        payload.alert.fail('链接已失效!1秒后跳转');
+        setTimeout(() => {
+          payload.router.push('/forgot_password');
+        }, 1000)
+      }else {
+        payload.alert.fail('修改密码失败');
+      }
     })
   }
 };

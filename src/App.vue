@@ -1,12 +1,30 @@
 <template>
   <div id="app">
-    <router-view/>
+    <transition :name="transitionName">
+      <router-view class="router"/>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+    return {
+      transitionName: 'slide-right'
+    }
+  },
+  watch: {
+    '$route'(to ,from){
+      let isBack = this.$router.isBack;
+      if(isBack) {
+        this.transitionName = 'slide-right';
+      }else {
+        this.transitionName = 'slide-left';
+      }
+      this.$router.isBack = false;
+    }
+  }
 }
 </script>
 
@@ -29,4 +47,24 @@ html, body{
   width: 100%;
   height: 100%;
 }
+
+.router {
+  position: absolute;
+  width: 100%;
+  transition: all 1s ease;
+}
+
+.slide-left-enter, .slide-right-leave-active {
+  opacity: 0;
+  transform: translate(100%, 0);
+}
+
+.slide-right-enter, .slide-left-leave-active {
+  opacity: 0;
+  transform: translate(-100%, 0);
+}
+
+
+
+
 </style>

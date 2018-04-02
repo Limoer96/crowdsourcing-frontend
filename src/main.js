@@ -21,7 +21,10 @@ import { Cell,
   Row,
   Field,
   Toast,
-  Radio
+  Radio,
+  NavBar,
+  Search,
+  List
 } from 'vant';
 Vue.use(Cell)
   .use(CellGroup)
@@ -36,7 +39,10 @@ Vue.use(Cell)
   .use(Row)
   .use(Field)
   .use(Toast)
-  .use(Radio);
+  .use(Radio)
+  .use(NavBar)
+  .use(Search)
+  .use(List);
 
 Vue.use(VueAMap);
 // 任何将要使用的插件在这里引入

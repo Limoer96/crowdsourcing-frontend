@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     back() {
-      this.$router.push('/');
+      this.$router.goBack('/');
     },
     changeToEmailLogin() {
       if(this.emailLogin) {

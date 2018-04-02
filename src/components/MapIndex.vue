@@ -69,7 +69,7 @@
       </van-cell-group>
       <van-row>
         <van-col span="12">
-          <van-button bottom-action type="primary">采集！</van-button>
+          <van-button bottom-action @click="chooseTask" type="primary">采集！</van-button>
         </van-col>
         <van-col span="12">
           <van-button bottom-action @click="show = !show">返回</van-button>
@@ -78,8 +78,8 @@
     </van-popup>
     <van-popup v-model="userMeunShow" position="top">
       <div class="btn-group">
-        <van-button class="btn" size="large" type="primary">个人信息</van-button>
-        <van-button size="large" type="danger">登出</van-button>  
+        <van-button class="btn" @click="toProfile" size="large" type="primary">个人信息</van-button>
+        <van-button @click="logout" size="large" type="danger">登出</van-button>  
       </div>    
     </van-popup>
     <van-popup v-model="settingShow">
@@ -93,6 +93,7 @@
 
 <script>
 import img from '../assets/icon_task_fill.png';
+import types from '../store/type';
 import { AMapManager } from 'vue-amap';
 import { mapGetters, mapState } from 'vuex';
 let amapManager = new AMapManager();
@@ -160,6 +161,21 @@ export default {
   methods: {
    toTaskDesc(id) {
      this.$router.push(`/task/${id}`)
+   },
+   logout() {
+     this.$store.commit(types.LOGOUT_AND_CLEAR_TOKEN);
+     this.userMeunShow = false;     
+   },
+   chooseTask() {
+     // 添加任务的操作
+     if(this.isLogin) {
+       this.$toast('采集成功！')
+     }else {
+       this.$toast('你还未登录，采集失败');
+     }
+   },
+   toProfile() {
+     this.$router.push('/profile');
    }
   },
   mounted() {
