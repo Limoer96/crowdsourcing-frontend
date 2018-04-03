@@ -4,6 +4,7 @@ import setTokenHeader from '../../util/settokenheader';
 const state = {
   userName: '',
   token: null,
+  id: null,
   loading: false,
   error: '',
   vc_send: false
@@ -18,9 +19,10 @@ const mutations = {
   [types.AFTER_RESPONSE](state) {
     state.loading =false;
   },
-  [types.AUTH_SUCCESS_AND_SAVE_TOKEN](state, { userName, token }) {
+  [types.AUTH_SUCCESS_AND_SAVE_TOKEN](state, { userName, token, id }) {
     state.userName = userName;
     state.token = token;
+    state.id = id;
   },
   [types.AUTH_FAILED](state, { error }) {
     state.error = error;
@@ -46,8 +48,8 @@ const actions = {
       }else if(status === 0) {
         // 正常的密码登录
         payload.alert.success('登录成功！');
-        const { token } = json.data;
-        commit(types.AUTH_SUCCESS_AND_SAVE_TOKEN, { userName: payload.data.user_id, token: token })
+        const { token, id } = json.data;
+        commit(types.AUTH_SUCCESS_AND_SAVE_TOKEN, { userName: payload.data.user_id, token: token, id: id})
         commit(types.AFTER_RESPONSE);
         localStorage.setItem('token', token);
         localStorage.setItem('userName', payload.data.user_id);
