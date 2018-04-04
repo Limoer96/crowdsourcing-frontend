@@ -16,6 +16,7 @@ export default {
   },
   watch: {
     '$route'(to ,from){
+      console.log("路由跳转了");
       let isBack = this.$router.isBack;
       if(isBack) {
         this.transitionName = 'slide-right';
@@ -51,7 +52,7 @@ html, body{
 .router {
   position: absolute;
   width: 100%;
-  transition: all 1s ease;
+  transition: all .6s ease;
 }
 
 .slide-left-enter, .slide-right-leave-active {

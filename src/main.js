@@ -24,7 +24,9 @@ import { Cell,
   Radio,
   NavBar,
   Search,
-  List
+  List,
+  Dialog,
+  Loading
 } from 'vant';
 Vue.use(Cell)
   .use(CellGroup)
@@ -42,7 +44,9 @@ Vue.use(Cell)
   .use(Radio)
   .use(NavBar)
   .use(Search)
-  .use(List);
+  .use(List)
+  .use(Dialog)
+  .use(Loading);
 
 Vue.use(VueAMap);
 // 任何将要使用的插件在这里引入
@@ -52,6 +56,23 @@ VueAMap.initAMapApiLoader({
   v: '1.4.4'
 })
 Vue.config.productionTip = false
+
+
+axios.interceptors.response.use(data => data, (error) => {
+  if(error.response) {
+    switch(error.response.status) {
+      case 401: {
+        localStorage.removeItem('token');
+        router.replace({
+          path: '/auth',
+          query: {redirect: router.currentRoute.fullPath}
+        })
+      }
+    }
+  }
+  return Promise.reject(error);
+})
+
 
 if(window.localStorage) {
   setTokenHeader(localStorage.getItem('token'));

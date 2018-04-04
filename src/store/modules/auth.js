@@ -53,12 +53,14 @@ const actions = {
         commit(types.AFTER_RESPONSE);
         localStorage.setItem('token', token);
         localStorage.setItem('userName', payload.data.user_id);
+        localStorage.setItem('id', id);
         setTokenHeader(token);
         setTimeout(() => {
           payload.router.push('/'); // 跳转至主页
         }, 1000);
       }
     }).catch(err => {
+      console.log(err);
       commit(types.AUTH_FAILED, { error: err.response.data.error });
       commit(types.AFTER_RESPONSE);
       payload.alert.fail(state.error); //错误提示
@@ -116,6 +118,13 @@ const actions = {
       }else {
         payload.alert.fail('修改密码失败');
       }
+    })
+  },
+  quickLogin({ state }) {
+    // 快捷登录后更新token，不用更新_id和用户id
+    api.quickLogin().then(json => {
+      state.token = json.data.token;
+      localStorage.setItem('token', json.data.token);
     })
   }
 };

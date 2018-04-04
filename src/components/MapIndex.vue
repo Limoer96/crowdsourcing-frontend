@@ -175,7 +175,7 @@ export default {
      }
    },
    toProfile() {
-     this.$router.push('/profile');
+     this.$router.push(`/profile?id=${localStorage.getItem('id')}`);
    }
   },
   mounted() {
@@ -212,6 +212,9 @@ export default {
       that.tasks = tasks;
       that.loadSuccess = true;
     }, 2000)
+    if(localStorage && localStorage.getItem('token')) {
+      this.$store.dispatch('quickLogin');
+    }
   },
   computed: {
     currentTask() {
@@ -224,7 +227,8 @@ export default {
       'isLogin'
     ]),
     ...mapState({
-      userName: state => state.auth.userName
+      userName: state => state.auth.userName,
+      id: state => state.auth.id
     })
   }
 }

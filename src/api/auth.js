@@ -7,5 +7,7 @@ export default {
   regist: (payload) => axios.post(`${BASE_URL}/api/users/regist`, qs.stringify(payload)).then(res => res.data),
   checkIdValidate: (payload) => axios.post(`${BASE_URL}/api/users/check_id_validation`, qs.stringify(payload)).then(res => res.data),
   sendResetPasswordMail: (payload) => axios.post(`${BASE_URL}/api/users/send_reset_email`, qs.stringify(payload)).then(res => res.data),
-  resetPassword: (data) => axios.post(`${BASE_URL}/api/users/reset_password`, qs.stringify(data)).then(res => res.data)
+  resetPassword: (data) => axios.post(`${BASE_URL}/api/users/reset_password`, qs.stringify(data)).then(res => res.data),
+  quickLogin: (data) => axios.get(`${BASE_URL}/api/users/quick_login`).then(res => res.data)
 }
+

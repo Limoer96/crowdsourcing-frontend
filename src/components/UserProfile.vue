@@ -2,7 +2,7 @@
   <div class="content-wrapper">
     <div class="header">
       <van-nav-bar
-        title="Limoer"
+        :title="this.data.userId || '加载中...'"
         left-arrow
         left-text="返回"
         @click-left="back"
@@ -10,16 +10,16 @@
       >
         <van-icon name="chat" slot="right"></van-icon>
       </van-nav-bar>
-      <van-search placeholder="搜索任务" v-model="searchText" @search="searchTasks"/>
+      <van-search placeholder="搜索任务" v-model="searchText" @search="search"/>
     </div>
-    <div v-if="data">
+    <div v-if="!error">
     <div class="profile">
       <van-row>
         <van-col span="6">
           <img class="avatar" src="../assets/img.jpg" alt="用户头像">
         </van-col>
         <van-col span="18">
-          <p class="name">{{this.data.userId}}</p>
+          <p class="name">{{this.data.userId || '加载中...'}}</p>
           <ul class="info-list">
             <li class="item">{{ this.data.taskComplete}}</li>
             <li class="item">{{this.data.taskComplete}}</li>
@@ -33,7 +33,7 @@
         </van-col>
       </van-row>
       <p class="title">个人简介</p>
-      <van-row>
+     <van-row>
         <van-col span="24">
           <p class="profile-container">{{this.data.prifile}}</p>
         </van-col>
@@ -50,7 +50,12 @@
       <van-cell title="所有动态" is-link />
     </van-cell-group>
     <van-cell-group style="margin-top: 20px">
-      <van-cell title="发布任务" :value="''+data.taskPublish" is-link />
+      <van-cell 
+        title="发布任务" 
+        :value="''+data.taskPublish" 
+        is-link 
+        :to="`/tasks?u=${data.userId}`"
+        />
       <van-cell title="接收任务" is-link :value="''+data.taskReceive" />
     </van-cell-group>
     <van-cell-group style="margin-top: 20px">
@@ -66,22 +71,30 @@ import api from '../api/user';
 export default {
   data() {
     return {
-      data: null,
-      error: null
+      data: {},
+      error: false,
+      searchText: ''
     }
   },
   methods: {
     back() {
       this.$router.goBack('/');
+    },
+    search() {
+
+    },
+    concat() {
+
     }
   },
    mounted() {
     // 在这里进行信息的请求
     const id = this.$route.query.id;
     api.getUserInfo({ _id: id }).then((json) => {
-      this.data = json.data;
-      console.log(json.data);
+      this.data = json.data; 
+      // throw new Error('123');
     }).catch(err => {
+      this.error = true;
       this.$dialog.alert({
         message: '加载用户信息出错!'
       });
