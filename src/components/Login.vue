@@ -94,9 +94,12 @@ export default {
       this.emailLogin = !this.emailLogin;
     },
     login() {    
+      const to= this.$route.query.redirect || '/';
+      console.log(to);
       this.$store.dispatch('auth', { 
         router: this.$router, 
         alert: this.$toast,
+        to,
         data:{
           user_id: this.userId, 
           password: this.password,
@@ -104,6 +107,7 @@ export default {
           vc: this.verificationCode 
         }
       })
+
     },
     getVCode() {
       this.$store.dispatch('getVC', {

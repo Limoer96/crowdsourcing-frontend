@@ -78,7 +78,8 @@
     </van-popup>
     <van-popup v-model="userMeunShow" position="top">
       <div class="btn-group">
-        <van-button class="btn" @click="toProfile" size="large" type="primary">个人信息</van-button>
+        <van-button style="background-color: #00E5FF; color: #fff" class="btn" @click="toProfile" size="large" type="default">个人信息</van-button>
+        <van-button class="btn" size="large" type="primary" @click="toPublishTask">发布任务</van-button>
         <van-button @click="logout" size="large" type="danger">登出</van-button>  
       </div>    
     </van-popup>
@@ -144,6 +145,14 @@ export default {
                 self.lng = result.position.lng;
                 self.lat = result.position.lat;
                 self.center = [self.lng, self.lat];
+                const location = {
+                  lng: result.position.lng,
+                  lat: result.position.lng,
+                  address: result.formattedAddress,
+                  city: result.addressComponent.city
+                }
+                self.$store.commit(types.GET_AND_SAVE_LOCATION, location);
+                console.log(self.$store);
                 self.windows.push({
                   position: [result.position.lng, result.position.lat],
                   content: '你在这里!',
@@ -165,6 +174,9 @@ export default {
    logout() {
      this.$store.commit(types.LOGOUT_AND_CLEAR_TOKEN);
      this.userMeunShow = false;     
+   },
+   toPublishTask() {
+     this.$router.push('/publish');
    },
    chooseTask() {
      // 添加任务的操作

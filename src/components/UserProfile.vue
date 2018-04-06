@@ -91,8 +91,7 @@ export default {
     // 在这里进行信息的请求
     const id = this.$route.query.id;
     api.getUserInfo({ _id: id }).then((json) => {
-      this.data = json.data; 
-      // throw new Error('123');
+      this.data = json.data;
     }).catch(err => {
       this.error = true;
       this.$dialog.alert({

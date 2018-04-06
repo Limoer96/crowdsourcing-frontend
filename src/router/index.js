@@ -7,6 +7,7 @@ import ForgotPassword from '@/components/ForgotPassword';
 import ResetPassword from '@/components/ResetPassword';
 import UserProfile from '@/components/UserProfile';
 import TaskList from '@/components/TaskList';
+import PublishTask from '@/components/PublishTask';
 
 // 默认不传参数返回上一个路由，否则跳转到指定路由
 Router.prototype.goBack = function(url) {
@@ -59,6 +60,14 @@ const router =  new Router({
       path: '/tasks',
       name: 'TaskList',
       component: TaskList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/publish',
+      name: 'PublishTask',
+      component: PublishTask,
       meta: {
         requireAuth: true
       }

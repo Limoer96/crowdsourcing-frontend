@@ -7,7 +7,8 @@ const state = {
   id: null,
   loading: false,
   error: '',
-  vc_send: false
+  vc_send: false,
+  location: {}
 };
 const getters = {
   isLogin: (state) => state.token !== null
@@ -33,7 +34,10 @@ const mutations = {
     localStorage.removeItem('userName');
     localStorage.removeItem('email');
     setTokenHeader(); // 清除验证头部
-  } 
+  },
+  [types.GET_AND_SAVE_LOCATION](state, location) {
+    state.location = location;
+  }
 };
 const actions = {
   auth({ commit, state }, payload) {
@@ -56,7 +60,7 @@ const actions = {
         localStorage.setItem('id', id);
         setTokenHeader(token);
         setTimeout(() => {
-          payload.router.push('/'); // 跳转至主页
+          payload.router.push(payload.to); // 跳转
         }, 1000);
       }
     }).catch(err => {
@@ -79,9 +83,10 @@ const actions = {
       payload.alert.success('登录成功！');
       localStorage.setItem('userName', payload.data.userId);
       localStorage.setItem('token', json.data.token);
+      localStorage.setItem('id', id);
       setTokenHeader(json.data.token);
         setTimeout(() => {
-          payload.router.push('/dashbord');
+          payload.router.push('/');
         }, 1000);
     }).catch(err => {
       console.log(err);

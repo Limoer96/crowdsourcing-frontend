@@ -22,11 +22,14 @@ import { Cell,
   Field,
   Toast,
   Radio,
+  RadioGroup,
   NavBar,
   Search,
   List,
   Dialog,
-  Loading
+  Loading,
+  Checkbox, 
+  CheckboxGroup
 } from 'vant';
 Vue.use(Cell)
   .use(CellGroup)
@@ -42,11 +45,14 @@ Vue.use(Cell)
   .use(Field)
   .use(Toast)
   .use(Radio)
+  .use(RadioGroup)
   .use(NavBar)
   .use(Search)
   .use(List)
   .use(Dialog)
-  .use(Loading);
+  .use(Loading)
+  .use(Checkbox)
+  .use(CheckboxGroup);
 
 Vue.use(VueAMap);
 // 任何将要使用的插件在这里引入
@@ -56,7 +62,6 @@ VueAMap.initAMapApiLoader({
   v: '1.4.4'
 })
 Vue.config.productionTip = false
-
 
 axios.interceptors.response.use(data => data, (error) => {
   if(error.response) {

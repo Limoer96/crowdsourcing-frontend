@@ -21,8 +21,8 @@
           <p class="title">{{ task.title }}</p>
           <p class="desc">{{ task.desc}}</p>
           <ul>
-            <li>需求数{{task.member}}</li>
-            <li>{{task.status}}</li>
+            <li>需求数{{task.nums_confirm}}/{{task.nums_need}}</li>
+            <li>{{mapStatus[task.status]}}</li>
             <li>{{10}} 天前</li>
           </ul>
         </div>
@@ -36,6 +36,7 @@ import api from '../api/user';
 export default {
   data() {
     return {
+      mapStatus: ['已完成', '进行中', '已关闭'],
       userId: 'limoer',
       count: 20,
       lists: [{
@@ -43,7 +44,7 @@ export default {
         title: '这是任务的标题',
         desc: '这是任务的描述,是任务的描述这是任务的描述这是任务的描述这是任务的描述这是任务的描述',
         time: '2018-12-24',
-        status: '进行中',
+        status: 1,
         member: '5/10'
       }]
       ,
