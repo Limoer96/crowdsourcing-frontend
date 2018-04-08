@@ -4,6 +4,7 @@
       title="发布任务"
       left-arrow
       left-text="返回"
+      @click-left="back"
     />
     <div class="input-body">
       <p class="van-ellipsis">当前位置：{{this.location.address? this.location.address : "无法获取当前位置，将不使用地址发送"}}</p>
@@ -80,23 +81,53 @@ export default {
         this.$toast('你已经填写5项要求了！');
       }
     },
+    back() {
+      this.$dialog.confirm({
+        title: '警告',
+        message: '确认离开吗？当前任务还未发布'
+      }).then(() => {
+        this.$router.goBack();
+      }).catch(() => {
+        // 取消的逻辑
+      })
+    },
     addTask() {
       if(this.isValid) {
         api.addTask({
           title: this.title,
           desc: this.desc,
-          types: types,
+          types: this.types,
           limits: this.limits,
-          location: this.location,
+          location: this.getFormatLocation(),
           nums_need: this.nums_need,
           price: this.price,
           time_limit: this.time_limit
         }).then(json => {
-          this.$toast.success('发布成功')
+          const _id = json.data._id;
+          this.$toast.success({message: '发布成功', duration: 1000});
+          setTimeout(() => {
+            this.$router.push(`/task/${_id}`);
+          }, 1500);
+          // 一秒轻提示，1.5秒后跳转
         }).catch(err => {
-          this.$toast.fail('发布失败')
+          this.$toast.fail('发布失败，请重试！');
         })
+      }else {
+        this.$toast('请填写完所有选项后再发布');
       }
+    },
+    getFormatLocation() {
+      if(!this.isLocation) {
+        // 没有获取到地址
+        return { lng: 0, lat: 0, address: '默认地址', city: '默认城市' }
+      }
+      if(this.locationStyle === '1') {
+        return { lng: 0, lat: 0, address: '默认地址', city: this.location.city }
+      }else if(this.locationStyle === '2') {
+        // 不使用地址
+        return { lng: 0, lat: 0, address: '默认地址', city: '默认城市' }        
+      }
+      return this.location
     }
   },
   computed: {
@@ -128,4 +159,3 @@ export default {
 }
 
 </style>
-

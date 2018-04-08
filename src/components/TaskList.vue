@@ -17,6 +17,7 @@
           class="task-item"
           v-for="task in lists"
           :key="task.t_id"
+          @click="toTaskDetail(task._id)"
         >
           <p class="title">{{ task.title }}</p>
           <p class="desc">{{ task.desc}}</p>
@@ -39,14 +40,7 @@ export default {
       mapStatus: ['已完成', '进行中', '已关闭'],
       userId: 'limoer',
       count: 20,
-      lists: [{
-        t_id: 'dasdas',
-        title: '这是任务的标题',
-        desc: '这是任务的描述,是任务的描述这是任务的描述这是任务的描述这是任务的描述这是任务的描述',
-        time: '2018-12-24',
-        status: 1,
-        member: '5/10'
-      }]
+      lists: []
       ,
       loading: false,
       finished: false,
@@ -71,6 +65,9 @@ export default {
             this.finished = true;
           }
        })
+    },
+    toTaskDetail(_id) {
+      this.$router.push(`/task/${_id}`);
     }
   }
 }

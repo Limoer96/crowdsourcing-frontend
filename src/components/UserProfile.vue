@@ -59,8 +59,8 @@
       <van-cell title="接收任务" is-link :value="''+data.taskReceive" />
     </van-cell-group>
     <van-cell-group style="margin-top: 20px">
-      <van-cell title="他的发帖" :value="data.discuss" is-link />
-      <van-cell title="他的回复" is-link :value="data.answers" />
+      <van-cell :title="sexText + '的发帖'" :value="data.discuss" is-link />
+      <van-cell :title="sexText + '的回复'" is-link :value="data.answers" />
     </van-cell-group>
     </div>
   </div>
@@ -73,18 +73,32 @@ export default {
     return {
       data: {},
       error: false,
-      searchText: ''
+      searchText: '',
+      sexText: '' // 称谓
     }
   },
   methods: {
     back() {
-      this.$router.goBack('/');
+      const url = this.$route.query.redirect; // 返回上一级路由
+      this.$router.goBack(url);
     },
     search() {
 
     },
     concat() {
 
+    },
+    getSexText(sex) {
+      if(this.isUserSelf) {
+        return '我';
+      }
+      if(sex === 0) {
+        return '他';
+      }else if(sex === 1) {
+        return '她';
+      }else {
+        return 'Ta';
+      }
     }
   },
    mounted() {
@@ -92,12 +106,22 @@ export default {
     const id = this.$route.query.id;
     api.getUserInfo({ _id: id }).then((json) => {
       this.data = json.data;
+      this.sexText = this.getSexText(json.data.sex);
     }).catch(err => {
+      console.log(err);
       this.error = true;
       this.$dialog.alert({
         message: '加载用户信息出错!'
       });
     })
+  },
+  computed: {
+    isUserSelf() {
+      // 通过判断本地的用户_id和用户数据的_id来判断是不是本人
+      let _id = localStorage.getItem('id'); // 当前用户的id
+      let id_server = this.data._id || '';
+      return _id === id_server;
+    }
   }
 }
 </script>

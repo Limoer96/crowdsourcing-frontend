@@ -187,7 +187,7 @@ export default {
      }
    },
    toProfile() {
-     this.$router.push(`/profile?id=${localStorage.getItem('id')}`);
+     this.$router.push(`/profile?id=${localStorage.getItem('id')}&redirect=${this.$router.currentRoute.fullPath}`);
    }
   },
   mounted() {
