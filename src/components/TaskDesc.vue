@@ -128,8 +128,15 @@ export default {
     },
     receiveTask() {
       api.receiveTask({ t_id: this.$route.params.id }).then((json) => {
-        this.$toast.success('采集成功');
-        // 跳转到回答页面
+        if(json.status === 5) {
+          // 已经采集过了
+          this.$toast({ duration: 1000, message: '你已经采集过了~' })
+          this.$router.push(`/upload/${this.taskData._id}`);
+        }else{
+          this.$toast.success('采集成功');
+          this.$router.push(`/upload/${this.taskData._id}`);          
+        // 跳转到回答页面, 待实现回答页面
+        }
       }).catch(err => {
         console.log('err', err);
       })

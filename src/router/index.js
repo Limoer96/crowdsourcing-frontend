@@ -8,12 +8,14 @@ import ResetPassword from '@/components/ResetPassword';
 import UserProfile from '@/components/UserProfile';
 import TaskList from '@/components/TaskList';
 import PublishTask from '@/components/PublishTask';
-
+import TaskDesc from '@/components/TaskDesc';
+import MultConditionsTaskList from '@/components/MultConditionsTaskList';
+import UploadAnswer from '@/components/UploadAnswer';
 // 默认不传参数返回上一个路由，否则跳转到指定路由
 Router.prototype.goBack = function(url) {
   this.isBack = true;
   if(url) {
-    this.push(url);
+    this.replace(url);
   }else {
     this.go(-1); // 
   } //
@@ -68,6 +70,30 @@ const router =  new Router({
       path: '/publish',
       name: 'PublishTask',
       component: PublishTask,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/task/:id',
+      name: 'TaskDesc',
+      component: TaskDesc,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/multConditions',
+      name: 'MultConditionsTaskList',
+      component: MultConditionsTaskList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/upload/:id',
+      name: 'UploadAnswer',
+      component: UploadAnswer,
       meta: {
         requireAuth: true
       }

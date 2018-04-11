@@ -83,7 +83,7 @@ const actions = {
       payload.alert.success('登录成功！');
       localStorage.setItem('userName', payload.data.userId);
       localStorage.setItem('token', json.data.token);
-      localStorage.setItem('id', id);
+      localStorage.setItem('id', json.data.id);
       setTokenHeader(json.data.token);
         setTimeout(() => {
           payload.router.push('/');

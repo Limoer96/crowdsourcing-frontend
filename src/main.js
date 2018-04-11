@@ -29,7 +29,10 @@ import { Cell,
   Dialog,
   Loading,
   Checkbox, 
-  CheckboxGroup
+  CheckboxGroup,
+  Picker,
+  Panel,
+  Uploader
 } from 'vant';
 Vue.use(Cell)
   .use(CellGroup)
@@ -52,7 +55,10 @@ Vue.use(Cell)
   .use(Dialog)
   .use(Loading)
   .use(Checkbox)
-  .use(CheckboxGroup);
+  .use(CheckboxGroup)
+  .use(Picker)
+  .use(Panel)
+  .use(Uploader);
 
 Vue.use(VueAMap);
 // 任何将要使用的插件在这里引入
