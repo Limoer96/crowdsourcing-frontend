@@ -37,7 +37,7 @@ import api from '../api/user';
 export default {
   data() {
     return {
-      mapStatus: ['已完成', '进行中', '已关闭'],
+      mapStatus: ['进行中', '已完成', '已关闭'],
       userId: 'limoer',
       count: 20,
       lists: []

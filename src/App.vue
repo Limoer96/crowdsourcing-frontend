@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <nav-tool />
     <transition :name="transitionName">
       <router-view class="router"/>
     </transition>
@@ -7,6 +8,7 @@
 </template>
 
 <script>
+import NavTool from './components/sections/NavTool';
 export default {
   name: 'App',
   data() {
@@ -25,6 +27,9 @@ export default {
       }
       this.$router.isBack = false;
     }
+  },
+  components: {
+    NavTool
   }
 }
 </script>

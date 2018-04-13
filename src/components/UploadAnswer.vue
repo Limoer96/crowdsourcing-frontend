@@ -4,8 +4,9 @@
       title="提交回答"
       left-arrow
       left-text="返回"
+      @click-left="back"
     />
-    <Timer :time="new Date(2018, 4, 9)" :timeOffset="48"/>
+    <Timer :time="taskData.time" :timeOffset="taskData.time_limit" title="距离任务结束还剩"/>
     <div class="body">
       <van-panel 
         style="margin-bottom: .2rem"
@@ -41,7 +42,7 @@
         </div>
       </div>
     </div>
-    <van-button type="primary" style="position: fixed; bottom: 0" @click="uploadData" bottom-action>提交回答</van-button>
+    <van-button :disabled="isTaskEnd" style="position: fixed; bottom: 0" @click="uploadData" bottom-action>提交回答</van-button>
   </div>
 </template>
 
@@ -79,19 +80,30 @@ export default {
     removeImg(index) {
       this.imgList.splice(index, 1);
     },
+    back() {
+      this.$dialog.confirm({
+        message: '返回将丢失待提交的回答，确认返回？'
+      }).then(() => {
+        this.$router.goBack();
+      })
+    },
     uploadData() {
-      api.uploadData({
-        t_id: this.taskData._id,
-        answer: this.answer,
-        images: this.imgList
-      }).then((json) => {
-        if(json.status === 8) {
-          this.$toast("提交失败，你已经提交过任务了");
-        }else {
-          this.$toast("回答成功")
-        }
-      }).catch(err => {
-        console.log('失败！');
+      this.$dialog.confirm({
+        message: '一旦提交将无法再修改，确认提交吗？'
+      }).then(() => {
+         api.uploadData({
+          t_id: this.taskData._id,
+          answer: this.answer,
+          images: this.imgList
+        }).then((json) => {
+          if(json.status === 8) {
+            this.$toast("提交失败，你已经提交过任务了");
+          }else {
+            this.$toast("回答成功")
+          }
+        }).catch(err => {
+          console.log('回答任务失败');
+        })
       })
     }
   },
@@ -102,6 +114,11 @@ export default {
     }).catch(err => {
       this.error = true;
     });
+  },
+  computed: {
+    isTaskEnd() {
+      return new Date(this.taskData.time).getTime() + this.taskData.time_limit * 3600000 - Date.now() <= 0;
+    }
   }
 }
 </script>

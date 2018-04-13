@@ -11,6 +11,8 @@ import PublishTask from '@/components/PublishTask';
 import TaskDesc from '@/components/TaskDesc';
 import MultConditionsTaskList from '@/components/MultConditionsTaskList';
 import UploadAnswer from '@/components/UploadAnswer';
+import AnswerDesc from '@/components/AnswerDesc';
+
 // 默认不传参数返回上一个路由，否则跳转到指定路由
 Router.prototype.goBack = function(url) {
   this.isBack = true;
@@ -94,6 +96,14 @@ const router =  new Router({
       path: '/upload/:id',
       name: 'UploadAnswer',
       component: UploadAnswer,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/answer/:id',
+      name: 'AnswerDesc',
+      component: AnswerDesc,
       meta: {
         requireAuth: true
       }

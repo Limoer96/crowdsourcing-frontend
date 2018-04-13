@@ -70,13 +70,12 @@
       </van-collapse>
       <van-row v-if="!isAuthorSelf && isTaskRunning" type="primary">
         <van-col span="12">
-          <van-button bottom-action @click="receiveTask">采集</van-button>
+          <van-button :disabled="isTaskEnd" bottom-action @click="receiveTask">采集</van-button>
         </van-col>
         <van-col span="12">
-          <van-button type="primary" bottom-action>收藏</van-button>
+          <van-button :disabled="isTaskEnd" type="primary" bottom-action>收藏</van-button>
         </van-col>
       </van-row>
-
     </div>
   </div>
 </template>
@@ -145,6 +144,9 @@ export default {
   computed: {
     showContent() {
       return (!this.error && this.taskData !== null);
+    },
+    isTaskEnd() {
+      return new Date(this.taskData.time).getTime() + this.taskData.time_limit * 3600000 - Date.now() <= 0;
     },
     status() {
       let status = '';

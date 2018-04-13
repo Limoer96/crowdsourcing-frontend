@@ -1,6 +1,6 @@
 <template>
   <div class="timer-container">
-    <p class="title">距离任务结束还剩</p>
+    <p class="title">{{title}}</p>
     <p class="content">{{timeFormat}}</p>
   </div>
 </template>
@@ -14,7 +14,7 @@ export default {
       flag: false
     }
   },
-  props: ['time', 'timeOffset'],
+  props: ['time', 'timeOffset', 'title'],
   methods: {
     getTimer() {
       let secLeft = Number.parseInt((new Date(this.time).getTime() + this.timeOffset * 3600000 - Date.now())/1000); // 获取还剩余的时间 s
@@ -23,7 +23,7 @@ export default {
       let sec = this.format(Number.parseInt(secLeft%60));
       if(secLeft <= 0) {
         this.flag = true;
-        this.timeFormat = '任务已截止';
+        this.timeFormat = '已截止';
       }else {
         this.timeFormat = `${hour}小时${min}分${sec}秒`;
       }
