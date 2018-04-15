@@ -62,6 +62,7 @@
               :key="answer._id" 
               :title="answer.text" 
               is-link
+              @click="$router.push(`/answer/${answer._id}?redirect=${$router.currentRoute.fullPath}`)"
               :label="new Date(answer.date).toLocaleString()"
             />          
           </van-cell-group>
@@ -183,6 +184,9 @@ export default {
           case 2:
             status = '已关闭';  
             break;
+          case 3:
+            status = '待支付';
+            break;  
           default:
             status = '';
             break;

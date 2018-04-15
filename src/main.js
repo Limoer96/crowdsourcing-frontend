@@ -32,7 +32,9 @@ import { Cell,
   CheckboxGroup,
   Picker,
   Panel,
-  Uploader
+  Uploader,
+  SwitchCell,
+  Actionsheet
 } from 'vant';
 Vue.use(Cell)
   .use(CellGroup)
@@ -58,7 +60,9 @@ Vue.use(Cell)
   .use(CheckboxGroup)
   .use(Picker)
   .use(Panel)
-  .use(Uploader);
+  .use(Uploader)
+  .use(SwitchCell)
+  .use(Actionsheet);
 
 Vue.use(VueAMap);
 // 任何将要使用的插件在这里引入

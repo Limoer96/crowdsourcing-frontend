@@ -103,12 +103,22 @@ export default {
           price: this.price,
           time_limit: this.time_limit
         }).then(json => {
-          const _id = json.data._id;
-          this.$toast.success({message: '发布成功', duration: 1000});
-          setTimeout(() => {
-            this.$router.push(`/task/${_id}`);
-          }, 1500);
-          // 一秒轻提示，1.5秒后跳转
+          if(json.status === 7) {
+            // 此时余额不足
+            this.$dialog.confirm({
+              title: '提示',
+              message: '任务点不足，是否需要充值?'
+            }).then(() => {
+              this.$router.push(`/recharge`);
+            })
+          }else {
+            const _id = json.data._id;
+            this.$toast.success({message: '发布成功，即将跳转至支付页面', duration: 1000});
+            setTimeout(() => {
+              this.$router.push(`/pay/${_id}`);
+            }, 1500);
+            // 一秒轻提示，1.5秒后跳转
+          }
         }).catch(err => {
           this.$toast.fail('发布失败，请重试！');
         })

@@ -3,7 +3,7 @@
     <van-nav-bar 
       title="回答详情"
       left-text="返回"
-      @click-left="$router.goBack()"
+      @click-left="back"
       left-arrow
     />
     <Loading v-if="loading && !error"/>
@@ -105,11 +105,17 @@ export default {
     },
     isAnswerConfirmed() {
       if(this.answerData) {
-        return this.answerData.status !== 1 || this.sendConfirmRequest; // 不等于1 确认按钮不可用，此时已经被确认或者被拒绝了 
+        // 如果已经点击了发布按钮、当前任务状态不是正在进行、当前回答还没有被确认的话，那么此时按钮不可用
+        return this.answerData.status !== 1 || this.answerData.task.status !== 0 || this.sendConfirmRequest; // 不等于1 确认按钮不可用，此时已经被确认或者被拒绝了 
       }
+      return false;
     }
   },
   methods: {
+    back() {
+      const redirect = this.$route.params.redirect;
+      this.$router.goBack(redirect);
+    },
     showImages() {
       let imageUrls = this.answerData.img_src;
       imageUrls = imageUrls.map((url) => url.replace('public', 'http://localhost:3000'));
@@ -120,9 +126,14 @@ export default {
         message: '确认后任务点将会直接转至对方账户，继续?'
       }).then(() => {
         // 发起请求
-        api.confirmAnswer({ a_id: this.answerData._id }).then(() => {
+        api.confirmAnswer({ a_id: this.answerData._id }).then((json) => {
+          if(json.status === 6) {
+            // 此时任务已经关闭，并且完成了支付
+            this.$toast('任务已关闭或已确认，无法再进行确认');
+          }else {
+            this.$toast('确认成功！');
+          }
           this.sendConfirmRequest = true; // 不可再次提交了
-          this.$toast('确认成功');
         })
       })
     },

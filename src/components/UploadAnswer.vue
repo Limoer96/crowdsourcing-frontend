@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <van-button :disabled="isTaskEnd" style="position: fixed; bottom: 0" @click="uploadData" bottom-action>提交回答</van-button>
+    <van-button :disabled="isTaskEnd || uploaded" style="position: fixed; bottom: 0" @click="uploadData" bottom-action>提交回答</van-button>
   </div>
 </template>
 
@@ -57,7 +57,8 @@ export default {
       taskData: '',
       answer: '',
       imgList: [],
-      error: false
+      error: false,
+      uploaded: false
     }
   },
   components: {
@@ -101,6 +102,7 @@ export default {
           }else {
             this.$toast("回答成功")
           }
+          this.uploaded = true;
         }).catch(err => {
           console.log('回答任务失败');
         })
