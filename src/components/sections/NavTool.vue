@@ -4,7 +4,7 @@
       <li><button @click="showNavTool" class="btn"><van-icon name="wrap-nav"/><van-icon name="wap-nav"/></button></li>
       <li :class="['nav-tool-item',{'show-nav-tool': show}]">
         <router-link to="/publish"><van-icon name="records"/></router-link>
-        <router-link :to="`/answers/${uId}`"><van-icon name="pending-evaluate"/></router-link>
+        <router-link to="message"><van-icon name="pending-evaluate"/></router-link>
         <router-link to="/multConditions"><van-icon name="search"/></router-link>
       </li>
     </ul>
@@ -35,10 +35,10 @@ export default {
 .nav-tool-container {
   position: fixed;
   top: 8rem;
-  left: .2rem;
+  left: .1rem;
   z-index: 1000; 
   background-color:rgba(255, 255, 255, .8);
-  border-radius: 7px;
+  border-radius: 10px;
   box-shadow: 0px 0px 1px 2px rgba(0,0,0,.4);
   animation: 2s linear 0s infinite alternate shadow-a;
 }

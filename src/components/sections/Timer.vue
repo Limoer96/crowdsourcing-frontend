@@ -18,14 +18,15 @@ export default {
   methods: {
     getTimer() {
       let secLeft = Number.parseInt((new Date(this.time).getTime() + this.timeOffset * 3600000 - Date.now())/1000); // 获取还剩余的时间 s
-      let hour = this.format(Number.parseInt(secLeft/(3600)%24));
-      let min = this.format(Number.parseInt(secLeft/60%60));
+      let day = this.format(Number.parseInt((secLeft/(3600*24))));
+      let hour = this.format(Number.parseInt((secLeft/3600)%24));
+      let min = this.format(Number.parseInt((secLeft/60)%60));
       let sec = this.format(Number.parseInt(secLeft%60));
       if(secLeft <= 0) {
         this.flag = true;
         this.timeFormat = '已截止';
       }else {
-        this.timeFormat = `${hour}小时${min}分${sec}秒`;
+        this.timeFormat = `${day}天${hour}小时${min}分${sec}秒`;
       }
     },
     format(time) {
@@ -37,6 +38,9 @@ export default {
     }
   },
   mounted () {
+    console.log(this.time);
+    console.log(this.timeOffset);
+    console.log(new Date(this.time).getTime() + this.timeOffset * 3600000 - Date.now());
     let timer = setInterval(() => {
       if(this.flag === true) {
         clearInterval(timer)

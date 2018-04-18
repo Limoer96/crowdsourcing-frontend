@@ -1,5 +1,11 @@
 <template>
   <div class="wrapper">
+    <van-nav-bar 
+      title="找回密码"
+      left-arrow
+      left-text="登录"
+      @click-left="$router.replace('/auth')"
+    />
     <div class="header">
       <p>找回密码</p>
       <p>通过邮箱来找回密码</p>

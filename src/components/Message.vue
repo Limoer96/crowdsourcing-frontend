@@ -5,6 +5,7 @@
       title="消息盒子"
       left-text="返回"
       left-arrow
+      @click-left="$router.goBack()"
     />
     <van-notice-bar
       style="margin: .2rem 0"

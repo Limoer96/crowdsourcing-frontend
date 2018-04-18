@@ -13,6 +13,8 @@ import MultConditionsTaskList from '@/components/MultConditionsTaskList';
 import UploadAnswer from '@/components/UploadAnswer';
 import AnswerDesc from '@/components/AnswerDesc';
 import Pay from '@/components/Pay';
+import Message from '@/components/Message';
+import ReceiveTaskList from '@/components/ReceiveTaskList';
 
 // 默认不传参数返回上一个路由，否则跳转到指定路由
 Router.prototype.goBack = function(url) {
@@ -113,6 +115,22 @@ const router =  new Router({
       path: '/pay/:id',
       name: 'Pay',
       component: Pay,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      name: 'Message',
+      path: '/message',
+      component: Message,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      name: 'ReceiveTaskList',
+      path: '/receive_tasks',
+      component: ReceiveTaskList,
       meta: {
         requireAuth: true
       }

@@ -118,6 +118,7 @@ export default {
         }else {
           this.payText = '支付成功';
           this.disabled = true;
+          this.$router.push(`/task/${this.$route.params.id}`);
         }
       }).catch(err => {
         this.paying = false;

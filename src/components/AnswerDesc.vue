@@ -8,9 +8,9 @@
     />
     <Loading v-if="loading && !error"/>
     <Erro v-if="error"/>
-    <div class="body" v-if="isAuthorSelf">
-       <Timer :time="answerData.task.time" :timeOffset="answerData.task.time_limit + 24" title="距离确认截止还有"/>
-       <p class="sub-title">任务信息</p>
+    <div class="body" v-if="answerData && isAuthorSelf">
+       <Timer :time="answerData.task.time" :timeOffset="answerData.task.time_limit + 48" title="距离确认截止还有"/>
+       <p class="sub-title">任务信息{{answerData.task.time_limit}}</p>
        <van-cell-group>
           <van-cell 
             :title="answerData.task.title"
@@ -153,5 +153,7 @@ export default {
 </script>
 
 <style scoped>
-
+.sub-title {
+  margin-left: .2rem;
+}
 </style>

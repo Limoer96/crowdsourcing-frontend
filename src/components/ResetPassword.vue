@@ -1,5 +1,11 @@
 <template>
   <div class="wrapper">
+    <van-nav-bar
+      title="重置密码"
+      left-text="登录"
+      @click-left="$router.replace('/auth')"
+      left-arrow
+    />
     <div class="header">
       <p>重置密码</p>
       <p>为你的账户设置新的密码</p>

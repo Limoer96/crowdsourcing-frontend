@@ -56,7 +56,7 @@
         is-link 
         :to="`/tasks?u=${data.userId}`"
         />
-      <van-cell title="接收任务" is-link :value="''+data.taskReceive" />
+      <van-cell title="接收任务" to="receive_tasks" v-if="isUserSelf" is-link :value="''+data.taskReceive" />
     </van-cell-group>
     <van-cell-group style="margin-top: 20px">
       <van-cell :title="sexText + '的发帖'" :value="data.discuss" is-link />
