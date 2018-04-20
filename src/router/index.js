@@ -15,6 +15,10 @@ import AnswerDesc from '@/components/AnswerDesc';
 import Pay from '@/components/Pay';
 import Message from '@/components/Message';
 import ReceiveTaskList from '@/components/ReceiveTaskList';
+import PublishDiscuss from '@/components/PublishDiscuss';
+import DiscussList from '@/components/DiscussList';
+import DiscussDesc from '@/components/DiscussDesc';
+
 
 // 默认不传参数返回上一个路由，否则跳转到指定路由
 Router.prototype.goBack = function(url) {
@@ -131,6 +135,30 @@ const router =  new Router({
       name: 'ReceiveTaskList',
       path: '/receive_tasks',
       component: ReceiveTaskList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      name: 'PublishDiscuss',
+      path: '/discuss/publish',
+      component: PublishDiscuss,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      name: 'DiscussList',
+      path: '/discuss/lists',
+      component: DiscussList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      name: 'DiscussDesc',
+      path: '/discuss/desc/:id',
+      component: DiscussDesc,
       meta: {
         requireAuth: true
       }

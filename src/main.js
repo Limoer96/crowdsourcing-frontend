@@ -35,7 +35,8 @@ import { Cell,
   Uploader,
   SwitchCell,
   Actionsheet,
-  NoticeBar
+  NoticeBar,
+  Pagination
 } from 'vant';
 Vue.use(Cell)
   .use(CellGroup)
@@ -64,7 +65,8 @@ Vue.use(Cell)
   .use(Uploader)
   .use(SwitchCell)
   .use(Actionsheet)
-  .use(NoticeBar);
+  .use(NoticeBar)
+  .use(Pagination);
 
 Vue.use(VueAMap);
 // 任何将要使用的插件在这里引入
