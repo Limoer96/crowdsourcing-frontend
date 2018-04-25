@@ -4,7 +4,7 @@
       <li><button @click="showNavTool" class="btn"><van-icon name="wrap-nav"/><van-icon name="wap-nav"/></button></li>
       <li :class="['nav-tool-item',{'show-nav-tool': show}]">
         <router-link to="/publish"><van-icon name="records"/></router-link>
-        <router-link to="message"><van-icon name="pending-evaluate"/></router-link>
+        <router-link to="/message"><van-icon name="pending-evaluate"/></router-link>
         <router-link to="/multConditions"><van-icon name="search"/></router-link>
       </li>
     </ul>

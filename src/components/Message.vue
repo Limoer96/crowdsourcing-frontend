@@ -44,7 +44,7 @@
             v-for="(record, index) in records.receiveList" 
             :key="Math.random()*index"
             :title="'任务点: ' + record.offset + '*' + record.count + ' 共计：' + record.offset*record.count + '个任务点'"
-            :label="'于' + new Date(record.date).toLocaleString() + '由 ' + record.send.user_id + ' 向你支付'"
+            :label="'于' + new Date(record.date).toLocaleString() + '由 ' + (record.text || record.send.user_id) + ' 向你支付'"
           />
         </van-cell-group>
         <p class="alert" v-else>暂无到账信息</p>
@@ -54,7 +54,7 @@
             v-for="(item, index) in records.sendList" 
             :key="Math.random()*index"
             :title="'任务点: ' + item.offset + '*' + item.count + ' 共计：' + item.offset*item.count + '个任务点'"
-            :label="'于' + new Date(item.date).toLocaleString() + '支付给 ' + item.receive.user_id"
+            :label="'于' + new Date(item.date).toLocaleString() + '支付给 ' + ( item.text || item.receive.user_id)"
           />
         </van-cell-group>
         <p v-else class="alert">暂无支付记录</p>

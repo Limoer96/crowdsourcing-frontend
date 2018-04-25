@@ -30,10 +30,10 @@
       <van-cell-group style="margin-top: .4rem;">
         <p class="label">提现金额</p>
         <van-field @touchstart.native.stop="keyboardShow = true" v-model="cashCount" style="font-size: 36px; font-weight: 600"/>
-        <p class="label">可用余额 {{ accountData.account }}元 <a class="cashAll" @click="cashAll" href="javascript:void(0);">全部提现</a></p>
+        <p class="label">可用余额 {{ accountData.account.toFixed(2) }}元 <a class="cashAll" @click="cashAll" href="javascript:void(0);">全部提现</a></p>
       </van-cell-group>
       <van-button
-        @click="cash" 
+        @click="cashBefore" 
         type="primary"
         style="margin-top: .4rem; width: 90%; margin-left: 5%;"
         :disabled="!disabled"
@@ -55,6 +55,28 @@
         @input="onInput"
         @delete="onDelete"
       />
+      <van-actionsheet v-model="showSheet" title="任务点提现">
+        <van-row>
+          <van-col span="22" offset="1">
+            <p style="width: 100%; text-align: center">你将提现：￥{{ Number.parseInt(this.cashCount)}} </p>
+          </van-col>
+        </van-row>
+        <van-row>
+          <van-col span="22" offset="1">
+            <van-cell-group v-if="added">
+              <van-cell 
+                :title="`持卡人 ${name}`" 
+                :label="`尾号 ${account.slice(account.length-4)} 储蓄卡`" 
+              />
+            </van-cell-group>
+          </van-col>
+        </van-row>
+        <van-row style="margin: .2rem 0">
+          <van-col span="22" offset="1">
+            <van-button @click="cash" size="large" type="primary" :loading="loading">确认提现</van-button>
+          </van-col>
+        </van-row>
+      </van-actionsheet>
     </div>
   </div>
 </template>
@@ -71,7 +93,9 @@ export default {
       account: '',
       cashCount: '',
       keyboardShow: false,
-      accountData: ''
+      accountData: '',
+      showSheet: false,
+      loading: false
     }
   },
   methods: {
@@ -86,13 +110,25 @@ export default {
         this.account = '';
       }
     },
+    cash() {
+      // api 
+      this.loading = true;
+      account.cash({ count: Number.parseFloat(this.cashCount), card: this.account, name: this.name}).then(json => {
+        this.loading = false;
+        this.showSheet = false;
+        this.$toast('提现成功！');
+      })
+    },
+    cashBefore() {
+      this.showSheet = true;
+    },
     cashAll() {
-      this.cashCount = this.accountData.account;
+      this.cashCount = this.accountData.account.toFixed(2);
     },
     onInput(value) {
       let newCount = this.cashCount + value;
       if(Number.parseFloat(newCount) > this.accountData.account) {
-
+        this.$toast('输入金额不正确！');
       }else {
         this.cashCount = this.cashCount + value;
       }
@@ -105,9 +141,6 @@ export default {
   computed: {
     disabled() {
       return this.name && this.account.length === 19 && Number.parseInt(this.cashCount) > 0;
-    },
-    cash() {
-      // api 
     }
   },
   mounted () {

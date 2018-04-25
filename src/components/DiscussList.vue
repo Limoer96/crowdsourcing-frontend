@@ -18,9 +18,8 @@
       >
         <div class="content-container">
           <p class="content">{{ discuss.desc }}</p>
-          <div class="img">
-            <img
-              v-if="discuss.desc_images" 
+          <div class="img" v-if="discuss.desc_images.length > 0">
+            <img 
               :src="'http://localhost:3000/'+discuss.desc_images[0].replace('public/', '')" 
               alt=""
             >

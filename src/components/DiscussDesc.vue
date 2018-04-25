@@ -16,9 +16,8 @@
       >
         <div class="content-container">
           <p>{{discussData.desc}}</p>
-          <div class="img">
+          <div class="img" v-if="discussData.desc_images.length > 0">
             <img
-              v-if="discussData.desc_images" 
               :src="'http://localhost:3000/'+discussData.desc_images[0].replace('public/', '')" 
               alt="图片"
             >
@@ -38,7 +37,7 @@
           <p class="content">
             <span 
               v-if="comment.userRef">
-              <router-link :to="`/profile?id=${comment.userRef._id}&redirect=${$router.currentRoute.fullPath}`">
+              <router-link style="color: #3361a7;" :to="`/profile?id=${comment.userRef._id}&redirect=${$router.currentRoute.fullPath}`">
               @{{ comment.userRef.user_id }}
               </router-link>
             </span>
@@ -140,6 +139,7 @@ export default {
         this.$toast('评论成功');
         setTimeout(() => {
           this.show = false;
+          this.commentText = '';
           this.getCommentInfo(); // 重新获取评论数据
         }, 1000)
       })
@@ -159,6 +159,11 @@ export default {
     commentToDiscuss() {
       this.show = true;
       this.ph = '也说点什么吧';
+      this.userId = '';
+      this.commentId = '';
+    },
+    addLikeToComment(_id) {
+      this.$toast('收藏功能开发中...');
     }
   },
   components: {
@@ -231,5 +236,7 @@ export default {
   box-sizing: border-box;
   padding: .1rem 5%;
 }
+
+
 
 </style>

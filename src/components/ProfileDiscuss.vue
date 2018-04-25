@@ -2,7 +2,7 @@
   <div class="container">
     <van-nav-bar
       v-if="discusslist"
-      :title="`${discusslist[0].author.user_id} 的发帖`"
+      title="发帖信息"
       left-arrow
       left-text="返回"
       @click-left="$router.goBack()"
@@ -17,7 +17,7 @@
           <p class="title">{{ discuss.subject }}</p>
         </div>
         <div class="content">
-          <div class="img">
+          <div class="img" v-if="discuss.desc_images && discuss.desc_images.length > 0">
             <img 
               v-for="(img, index) in discuss.desc_images"
               :key="Math.random()*index"

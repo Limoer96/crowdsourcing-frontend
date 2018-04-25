@@ -132,6 +132,9 @@ export default {
           // 已经采集过了
           this.$toast({ duration: 1000, message: '你已经采集过了~' })
           this.$router.push(`/upload/${this.taskData._id}`);
+        }else if(json.status === 6) {
+          this.$toast({ duration: 1000, message: '人数已满，无法采集！'});
+          // this.back(); // 返回前一页
         }else{
           this.$toast.success('采集成功');
           this.$router.push(`/upload/${this.taskData._id}`);          

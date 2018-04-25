@@ -18,8 +18,15 @@ import ReceiveTaskList from '@/components/ReceiveTaskList';
 import PublishDiscuss from '@/components/PublishDiscuss';
 import DiscussList from '@/components/DiscussList';
 import DiscussDesc from '@/components/DiscussDesc';
-
-
+import ProfileDiscuss from '@/components/ProfileDiscuss';
+import CommentList from '@/components/CommentList';
+import UserVallet from '@/components/UserVallet';
+import Recharge from '@/components/Recharge';
+import UserCash from '@/components/UserCash';
+import AccountDetail from '@/components/AccountDetail';
+import AdminAuth from '@/components/admin/Auth';
+import Dashboard from '@/components/admin/Dashboard';
+import Data from '@/components/admin/Data';
 // 默认不传参数返回上一个路由，否则跳转到指定路由
 Router.prototype.goBack = function(url) {
   this.isBack = true;
@@ -162,6 +169,70 @@ const router =  new Router({
       meta: {
         requireAuth: true
       }
+    },
+    {
+      name: 'ProfileDiscuss',
+      path: '/profile_discuss',
+      component: ProfileDiscuss,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      name: 'CommentList',
+      path: '/comments',
+      component: CommentList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      name: 'UserVallet',
+      path:'/vallet/info',
+      component: UserVallet,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      name: 'Recharge',
+      path: '/vallet/recharge',
+      component: Recharge,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      name: 'UserCash',
+      path: '/vallet/cash',
+      component: UserCash,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      name: 'AccountDetail',
+      path: '/vallet/detail',
+      component: AccountDetail,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      name: 'AdminAuth',
+      path: '/admin/auth',
+      component: AdminAuth
+    },
+    {
+      name: 'Dashboard',
+      path: '/admin/dashboard',
+      component: Dashboard,
+      children: [
+        {
+          path: '/',
+          component: Data
+        }
+      ]
     }
   ]
 })

@@ -10,7 +10,7 @@
       >
         <van-icon name="chat" slot="right"></van-icon>
       </van-nav-bar>
-      <van-search placeholder="搜索任务" v-model="searchText" @search="search"/>
+      <!-- <van-search placeholder="搜索任务" v-model="searchText" @search="search"/> -->
     </div>
     <div v-if="!error">
     <div class="profile">
@@ -59,8 +59,35 @@
       <van-cell title="接收任务" to="receive_tasks" v-if="isUserSelf" is-link :value="''+data.taskReceive" />
     </van-cell-group>
     <van-cell-group style="margin-top: 20px">
-      <van-cell :title="sexText + '的发帖'" :value="data.discuss" is-link />
-      <van-cell :title="sexText + '的回复'" is-link :value="data.answers" />
+      <van-cell 
+        :title="sexText + '的发帖'" 
+        :value="data.discuss" 
+        is-link 
+        :to="`/profile_discuss?u_id=${data._id}`"
+      />
+      <van-cell 
+        :title="sexText + '的回复'" 
+        is-link 
+        :value="data.answers" 
+        :to="`/comments?u_id=${data._id}`"
+      />
+    </van-cell-group>
+    <van-cell-group v-if="isUserSelf" style="margin-top: 20px">
+      <van-cell 
+        :title="sexText + '的钱包'" 
+        is-link  
+        to="/vallet/info"
+      />
+      <van-cell 
+        title="充值" 
+        is-link  
+        to="/vallet/recharge"
+      />
+      <van-cell 
+        title="提现" 
+        is-link  
+        to="/vallet/cash"
+      />
     </van-cell-group>
     </div>
   </div>
@@ -178,7 +205,7 @@ export default {
 }
 .profile {
   background-color: #fff;
-  margin-bottom: 20px;
+  margin: .4rem 0;
 }
 .good-at {
   font-size: 8px;

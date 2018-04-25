@@ -63,7 +63,7 @@
 
 <script>
 import img from '../assets/close.png';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 export default {
   name: 'Auth',
   data() {
@@ -129,7 +129,16 @@ export default {
       loading: state => state.auth.loading,
       error: state => state.auth.error,
       vc_send: state => state.auth.vc_send
-    })
+    }),
+    ...mapGetters([
+      'isLogin'
+    ])
+  },
+  mounted() {
+    // 如果已经登录，则不进入这个页面
+    if(this.isLogin) {
+      this.$router.replace('/');
+    }
   }
 }
 </script>

@@ -6,7 +6,7 @@
       left-text="返回"
       @click-left="$router.goBack()"
     />
-    <p class="title">{{ taskData.length || '0' }}个任务</p>
+    <p v-if="taskData" class="title">{{ taskData.length || '0' }}个任务</p>
     <Loading v-if="loading" />
     <Erro v-if="error"/>
     <div class="body" v-if="taskData">

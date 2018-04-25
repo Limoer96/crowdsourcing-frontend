@@ -6,11 +6,12 @@
       left-text="返回"
       right-text="明细"
       @click-left="$router.goBack()"
+      @click-right="$router.push('/vallet/detail')"
     />
     <div class="body">
       <div class="header-content">
         <p class="msg">余额账户(任务点)</p>
-        <p v-if="userAccount" class="content">{{ userAccount.account }}</p>
+        <p v-if="userAccount" class="content">{{ userAccount.account.toFixed(2) }}</p>
       </div>
       <van-cell-group>
         <van-cell 
@@ -21,6 +22,7 @@
         <van-cell 
           title="提现"
           is-link
+          to="/vallet/cash"
         />
       </van-cell-group>
       <p class="help"><router-link to="help">需要帮助?</router-link></p>

@@ -18,7 +18,6 @@ export default {
   },
   watch: {
     '$route'(to ,from){
-      console.log("路由跳转了");
       let isBack = this.$router.isBack;
       if(isBack) {
         this.transitionName = 'slide-right';

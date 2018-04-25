@@ -45,27 +45,28 @@
     </el-amap>
     <div class="position-container">
       <p>当前位置：{{isLocation ? '定位中...' : searchOption.city}}</p>
-      <p>附近可用任务数：{{ !loadSuccess ? '加载中...': tasks.length}}</p>
+      <p>可用任务数：{{ !loadSuccess ? '加载中...': tasks.length}}</p>
+      <p>更多任务：<router-link style="color: #fff; font-weight: bold;" to="/multConditions">点击进入</router-link></p>
     </div>
     <van-popup v-if="currentTask" v-model="show" position="right">
       <p class="title">基本信息</p>
       <van-cell-group>
-        <van-cell title="任务编号" is-link :value="currentTask.id" @click="toTaskDesc(currentTask.id)"/>
-        <van-cell title="任务名称" :value="currentTask.name"/>
+        <van-cell title="任务编号" is-link :value="currentTask._id" @click="toTaskDesc(currentTask._id)"/>
+        <van-cell title="任务名称" :value="currentTask.title"/>
         <van-cell>
           <template slot="title">
             <span class="van-cell-text">类别</span>
-            <van-tag type="success" v-for="(tag, index1) in currentTask.type" :key="index1">{{tag}}</van-tag>
+            <van-tag type="success" v-for="(tag, index1) in currentTask.types" :key="index1">{{tag}}</van-tag>
           </template>
         </van-cell>
         <van-cell :value="currentTask.desc"/>
       </van-cell-group>
       <p class="title">更多信息</p>
       <van-cell-group>
-        <van-cell title="发布地点" :value="currentTask.location.address"/>
-        <van-cell title="人数" :value="currentTask.num + '/' + currentTask.numAll"/>
+        <van-cell title="发布地点：" :value="currentTask.location.address"/>
+        <van-cell title="人数" :value="currentTask.nums_confirm + '/' + currentTask.nums_need"/>
         <van-cell title="你将获得" :value="currentTask.price + '元'"/>
-        <van-cell title="时限" :value="currentTask.timeLimit + '小时以内'"/>
+        <van-cell title="时限" :value="currentTask.time_limit + '小时以内'"/>
       </van-cell-group>
       <van-row>
         <van-col span="12">
@@ -95,6 +96,7 @@
 <script>
 import img from '../assets/icon_task_fill.png';
 import types from '../store/type';
+import task from '../api/task';
 import { AMapManager } from 'vue-amap';
 import { mapGetters, mapState } from 'vuex';
 let amapManager = new AMapManager();
@@ -135,7 +137,7 @@ export default {
       },
       {
         pName: 'Geolocation',
-        timeout: 1000,
+        timeout: 3000,
         events: {
           init(o) {
             o.getCurrentPosition((status, result) => {
@@ -147,12 +149,11 @@ export default {
                 self.center = [self.lng, self.lat];
                 const location = {
                   lng: result.position.lng,
-                  lat: result.position.lng,
+                  lat: result.position.lat,
                   address: result.formattedAddress,
                   city: result.addressComponent.city
                 }
                 self.$store.commit(types.GET_AND_SAVE_LOCATION, location);
-                console.log(self.$store);
                 self.windows.push({
                   position: [result.position.lng, result.position.lat],
                   content: '你在这里!',
@@ -192,25 +193,14 @@ export default {
   },
   mounted() {
     // 假设通过API请求去拿数据
-    const tasks = [{
-      name: '采集你所在地区傍晚时分的日落图片',
-      id: 'aep9xc',
-      type: ['信息采集', '远程'],
-      desc: '使用专业相机(非手机)采集你所在地区傍晚时分的日落地图并上传',
-      limits: ['使用单反相机拍摄', '图片大小小于2MB', '限当日完成拍摄','这是更多的要求','这是更多的要求1','这是更多的要求2','这是更多的要求3'],
-      location: { lng: 117.17162, lat: 36.64741, address: '山东大学软件园校区'},
-      num: 5,
-      numAll: 10,
-      price: 10,
-      timeLimit: 24
-    }];
-    let that = this;
-    setTimeout(() => {
+    task.getMapTasks().then((json) => {
+      let tasks = json.data;
       const markers = [];
+      let that = this;
       for(let task of tasks) {
         markers.push({
           position: [task.location.lng, task.location.lat],
-          id: task.id,
+          id: task._id,
           events: {
             click: (o) => {
               const title = o.target.Uh.title;
@@ -223,7 +213,39 @@ export default {
       that.markers = markers;
       that.tasks = tasks;
       that.loadSuccess = true;
-    }, 2000)
+    });
+    // const tasks = [{
+    //   name: '采集你所在地区傍晚时分的日落图片',
+    //   id: 'aep9xc',
+    //   type: ['信息采集', '远程'],
+    //   desc: '使用专业相机(非手机)采集你所在地区傍晚时分的日落地图并上传',
+    //   limits: ['使用单反相机拍摄', '图片大小小于2MB', '限当日完成拍摄','这是更多的要求','这是更多的要求1','这是更多的要求2','这是更多的要求3'],
+    //   location: { lng: 117.17162, lat: 36.64741, address: '山东大学软件园校区'},
+    //   num: 5,
+    //   numAll: 10,
+    //   price: 10,
+    //   timeLimit: 24
+    // }];
+    // let that = this;
+    // setTimeout(() => {
+    //   const markers = [];
+    //   for(let task of tasks) {
+    //     markers.push({
+    //       position: [task.location.lng, task.location.lat],
+    //       id: task.id,
+    //       events: {
+    //         click: (o) => {
+    //           const title = o.target.Uh.title;
+    //           that.show = true;
+    //           that.currentIndex = title;
+    //         }
+    //       }
+    //     })
+    //   }
+    //   that.markers = markers;
+    //   that.tasks = tasks;
+    //   that.loadSuccess = true;
+    // }, 2000)
     if(localStorage && localStorage.getItem('token')) {
       this.$store.dispatch('quickLogin');
     }

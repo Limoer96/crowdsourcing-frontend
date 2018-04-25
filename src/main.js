@@ -36,7 +36,10 @@ import { Cell,
   SwitchCell,
   Actionsheet,
   NoticeBar,
-  Pagination
+  Pagination,
+  NumberKeyboard,
+  Tabbar,
+  TabbarItem
 } from 'vant';
 Vue.use(Cell)
   .use(CellGroup)
@@ -66,7 +69,10 @@ Vue.use(Cell)
   .use(SwitchCell)
   .use(Actionsheet)
   .use(NoticeBar)
-  .use(Pagination);
+  .use(Pagination)
+  .use(NumberKeyboard)
+  .use(Tabbar)
+  .use(TabbarItem);
 
 Vue.use(VueAMap);
 // 任何将要使用的插件在这里引入
