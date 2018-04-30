@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav-tool />
+    <nav-tool v-if="!isAdminSys"/>
     <transition :name="transitionName">
       <router-view class="router"/>
     </transition>
@@ -14,6 +14,13 @@ export default {
   data() {
     return {
       transitionName: 'slide-right'
+    }
+  },
+  computed: {
+    isAdminSys() {
+      // 如果是管理员界面，就不用悬浮导航栏了
+      let path = this.$route.fullPath;
+      return /\/admin\/*/.test(path); 
     }
   },
   watch: {

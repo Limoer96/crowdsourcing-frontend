@@ -27,6 +27,8 @@ import AccountDetail from '@/components/AccountDetail';
 import AdminAuth from '@/components/admin/Auth';
 import Dashboard from '@/components/admin/Dashboard';
 import Data from '@/components/admin/Data';
+import TaskCensor from '@/components/admin/TaskCensor';
+import Arbitration from '@/components/admin/Arbitration';
 // 默认不传参数返回上一个路由，否则跳转到指定路由
 Router.prototype.goBack = function(url) {
   this.isBack = true;
@@ -229,8 +231,16 @@ const router =  new Router({
       component: Dashboard,
       children: [
         {
-          path: '/',
+          path: 'data',
           component: Data
+        },
+        {
+          path: 'task',
+          component: TaskCensor
+        },
+        {
+          path: 'arbitration',
+          component: Arbitration
         }
       ]
     }

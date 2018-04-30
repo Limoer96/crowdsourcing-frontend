@@ -45,7 +45,7 @@ export default {
             }else {
               this.$toast('验证成功');
               localStorage.setItem('a_token', json.data.token);
-              this.$router.push('/admin/dashboard');
+              this.$router.push('/admin/dashboard/data');
             }
           }))
       }
