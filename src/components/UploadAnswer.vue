@@ -72,11 +72,11 @@ export default {
         return;
       }
       if(files.length) {
+        console.log(files);
         this.imgList.push(...files);
       }else {
         this.imgList.push(files);
       }
-      console.log(this.imgList);
     },
     removeImg(index) {
       this.imgList.splice(index, 1);

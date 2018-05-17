@@ -161,6 +161,15 @@ export default {
                   autoMove: true
                 })
                 self.$nextTick();
+              }else {
+                // 此时无法加载地图...
+                self.$dialog.alert({
+                  title: '提示',
+                  message: '无法加载地图，请切换至多条件检索'
+                }).then(() => {
+                  self.$store.commit(types.CAN_NOT_USE_MAP_SEARCH);
+                  self.$router.push('/multConditions');
+                })
               }
             })
           }
@@ -214,38 +223,6 @@ export default {
       that.tasks = tasks;
       that.loadSuccess = true;
     });
-    // const tasks = [{
-    //   name: '采集你所在地区傍晚时分的日落图片',
-    //   id: 'aep9xc',
-    //   type: ['信息采集', '远程'],
-    //   desc: '使用专业相机(非手机)采集你所在地区傍晚时分的日落地图并上传',
-    //   limits: ['使用单反相机拍摄', '图片大小小于2MB', '限当日完成拍摄','这是更多的要求','这是更多的要求1','这是更多的要求2','这是更多的要求3'],
-    //   location: { lng: 117.17162, lat: 36.64741, address: '山东大学软件园校区'},
-    //   num: 5,
-    //   numAll: 10,
-    //   price: 10,
-    //   timeLimit: 24
-    // }];
-    // let that = this;
-    // setTimeout(() => {
-    //   const markers = [];
-    //   for(let task of tasks) {
-    //     markers.push({
-    //       position: [task.location.lng, task.location.lat],
-    //       id: task.id,
-    //       events: {
-    //         click: (o) => {
-    //           const title = o.target.Uh.title;
-    //           that.show = true;
-    //           that.currentIndex = title;
-    //         }
-    //       }
-    //     })
-    //   }
-    //   that.markers = markers;
-    //   that.tasks = tasks;
-    //   that.loadSuccess = true;
-    // }, 2000)
     if(localStorage && localStorage.getItem('token')) {
       this.$store.dispatch('quickLogin');
     }
@@ -292,6 +269,10 @@ export default {
   padding: 10px;
   z-index: 10;
   color: #fff;
+}
+
+.position-container > p {
+  margin: 6px;
 }
 .title{
   margin: 0;

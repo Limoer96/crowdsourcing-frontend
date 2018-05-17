@@ -89,7 +89,7 @@
 import api from '../api/task';
 import Loading from './sections/Loading';
 import Erro from './sections/Error';
-
+import { mapState } from 'vuex';
 export default {
   name: 'MultConditionsTaskList',
   data() {
@@ -131,7 +131,11 @@ export default {
   },
   methods: {
     back() {
-      this.$router.replace('/');
+      if(this.isBackBtnCanUse) {
+        this.$router.replace('/');
+      }else {
+        this.$toast('无法使用地图模式');
+      }
     },
     selectCity(value, index) {
       this.city.show = false;
@@ -245,6 +249,12 @@ export default {
   },
   mounted() {
     this.getTaskList();
+    console.log('store', this.$store);
+  },
+  computed: {
+    ...mapState({
+      isBackBtnCanUse: (state) => state.app_state.canUseMapSearch
+    })
   }
 }
 </script>
@@ -260,6 +270,7 @@ export default {
 .title {
   color: rgba(0,0,0,.6);
   font-size: 14px;
+  margin-left: 6px;
 }
 .header-fixed {
   position: fixed;

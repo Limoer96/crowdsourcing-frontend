@@ -88,7 +88,7 @@ axios.interceptors.response.use(data => data, (error) => {
     switch(error.response.status) {
       case 401: {
         localStorage.removeItem('token');
-        router.replace({
+        router.push({
           path: '/auth',
           query: {redirect: router.currentRoute.fullPath}
         })
