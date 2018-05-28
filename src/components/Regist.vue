@@ -86,6 +86,7 @@ export default {
 .header-container {
   background-color: #4b0;
   color: #fff;
+  padding: 6px 0;
 }
 .title {
   margin: 0;

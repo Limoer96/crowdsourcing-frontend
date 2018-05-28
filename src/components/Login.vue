@@ -40,7 +40,7 @@
         </van-col>
       </van-row>
       </div>
-      <p class="alert">未注册用户登录后，注册即同意《HFxxC用户协议》</p>
+      <p class="alert">未注册用户登录后，注册即同意<span @click="show = true">《HFxxC用户协议》</span></p>
       <van-row>
         <van-col span="22" offset="1">
           <van-button @click="login" type="primary" size="large" :loading="loading">登录</van-button>
@@ -58,6 +58,42 @@
         </van-col>
       </van-row>
     </div>
+    <van-popup style="width: 90%; height: 100%;overflow: auto; margin: 10px 0; opacity: 0.9" v-model="show">
+      <van-nav-bar 
+        title="用户协议"
+        left-arrow
+        @click-left="show = false"
+      />
+      <div class="content-o">
+        <p class="title-o">HFxxC用户协议</p>
+        <p>欢迎您来到HFxxC移动众包平台。</p>
+        <p>请您自诩阅读以下条款，如果您对本协议的任何条款表示异议，您可以选择不进入本应用。当您注册成功，均意味着您（即「用户」）完全接受本协议项下的全部条款。</p>
+        <ul>
+          <li>
+            <p class="title-o1">使用规则</p>
+            <p>用户一旦注册成功，该账户和密码均由用户负责保管；用户应当对以其用户帐号进行的所有活动和事件负法律责任。</p>
+            <p>用户承诺不得以任何方式利用本平台直接或间接从事违反中国法律以及社会公德的行为，HFxxC有权对违反上述承诺的内容予以删除。</p>
+          </li>
+          <li>
+            <p class="title-o1">任务点</p>
+            <p>任务点是本平台上专供用户使用的虚拟货币，可以使用其进行任务的支付，也可以对齐进行提现成为法定货币。换算比为任务点：人民币 = 1：1。</p>
+            <p>用户违规充值任务点造成损失的，本平台不承担任何责任，并且本平台有权对违规使用任务点的账户进行封禁。</p>
+          </li>
+          <li>
+            <p class="title-o1">任务审查</p>
+            <p>所有在平台上发布的任务都将进行人工审查。</p>
+            <p>用户发布了侵犯隐私和触犯法律的任务，将承担相应的责任。</p>
+            <p>任务审查只是平台的监督方式，如果出现违规被举报的任务，本平台不承担责任。</p>          
+          </li>
+          <li>
+            <p class="title-o1">回答仲裁</p>
+            <p>回答仲裁将使用人工仲裁的方式对任务双方的争议回答进行仲裁。</p>
+            <p>任务双方必须同意仲裁结果，但保留其投诉的权利。</p>
+            <p>涉及到因为商业行为引起的法律纠纷，由任务双方自行处理，与本平台无关。</p>
+          </li>
+        </ul>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -74,7 +110,8 @@ export default {
       userId: '',
       password: '',
       verificationCode: '',
-      email: ''
+      email: '',
+      show: false
     }
   },
   methods: {
@@ -172,6 +209,9 @@ export default {
   color: rgba(0,0,0,.4);
   margin: 20px 0;
 }
+.alert > span {
+  color: #4b0;
+}
 .footer-container {
   margin-top: 5px;
 }
@@ -199,5 +239,16 @@ export default {
   font-size: 20px;
   font-weight: lighter;
 }
+.content-o p{
+  margin: 6px;
+}
 
+.title-o {
+  font-size: 20px;
+  font-weight: bold;
+}
+.title-o1 {
+  font-size: 18px;
+  font-weight: bold;
+}
 </style>

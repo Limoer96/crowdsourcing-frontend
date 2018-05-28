@@ -162,14 +162,19 @@ export default {
                 })
                 self.$nextTick();
               }else {
-                // 此时无法加载地图...
-                self.$dialog.alert({
-                  title: '提示',
-                  message: '无法加载地图，请切换至多条件检索'
-                }).then(() => {
-                  self.$store.commit(types.CAN_NOT_USE_MAP_SEARCH);
-                  self.$router.push('/multConditions');
-                })
+                if(self.loadAlert) {
+                  // 此时无法加载地图...
+                  self.$dialog.confirm({
+                    title: '提示',
+                    message: '无法加载地图，请切换至多条件检索'
+                  }).then(() => {
+                    self.$store.commit(types.CAN_NOT_USE_MAP_SEARCH);
+                    self.$router.push('/multConditions');
+                  }).catch(() => {
+                    // 如果用户此时选了否，那么以后加载地图都不要进行提示了
+                    self.$store.commit(types.NOT_LOAD_MAP_LOADING_ALERT);
+                  })
+                }
               }
             })
           }
@@ -239,7 +244,8 @@ export default {
     ]),
     ...mapState({
       userName: state => state.auth.userName,
-      id: state => state.auth.id
+      id: state => state.auth.id,
+      loadAlert: state => state.app_state.loadAlert
     })
   }
 }
